@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        .inner2{
+            position: absolute;
+        }
+        .wrap{
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">wrap
+        <div class="inner1">inner1
+            <div class="inner2">inner2</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+        window.onload = function(){
+            // parentNode 直接父级
+            var inner2 = document.querySelector('.inner2')
+            console.log(inner2.parentNode.innerHTML)
+        }
+</script>
+</html>

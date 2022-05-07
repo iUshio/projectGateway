@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #wrap{
+            position: absolute;
+            background-color: pink;
+        }
+        #inner1{
+            position: relative;
+            background-color: deeppink;
+        }
+        #inner2{
+            position: absolute;
+            background-color: hotpink;
+        }
+        #inner3{
+            position: fixed;
+            background-color: yellow;
+        }
+        div{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">wrap
+        <div id="inner1">inner1
+            <div id="inner2">inner2
+                <div id="inner3">inner3</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+
+</script>
+</html>
