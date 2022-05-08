@@ -1,0 +1,113 @@
+html,body{
+    height: 100%;
+    // 关闭滚动条
+    overflow: hidden;
+}
+
+#head{
+    width: 100%;
+    background-color: #fff !important;
+
+    .headMain{
+        max-width: 1100px;
+        min-height: 80px;
+        position: relative;
+        margin: 0 auto;
+
+        .logo{
+            float: left;
+            margin-top: 30px;
+        }
+
+        .nav{
+            float: right;
+            margin-top: 50px;
+            .list{
+
+                li{
+                    float: left;
+                    position: relative;
+                    margin-left: 40px;
+                    font-size: 16px;
+
+                    a:hover .up{
+                        width: 100%;
+                    }
+                }
+
+                .up{
+                    width: 0;
+                    position: absolute;
+                    overflow: hidden;
+                    color: blue;
+                    transition: width 1s linear;
+                }
+            }
+        }
+
+        .arrow{
+            width: 21px;
+            height: 11px;
+            position: absolute;
+            left: 50%;
+            bottom: -11px;
+            z-index: 2;
+            background: url('../img/menuIndicator.png');
+            transition: 0.5s linear;
+        }
+    }
+}
+
+#content{
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background-color: gray;
+
+    ul{
+        width: 100%;
+        position: absolute;
+        transition: 1s;
+
+        li{
+            position: relative;
+        }
+
+        div{
+            width: 1100px;
+            height: 520px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: pink;
+        }
+
+        .home{
+            background: url('../img/bg1.jpg') no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .course{
+            background: url('../img/bg2.jpg') no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .works{
+            background: url('../img/bg3.jpg') no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .about{
+            background: url('../img/bg4.jpg') no-repeat;
+            background-position: 50% 50%;
+        }
+
+        .team{
+            background: url('../img/bg5.jpg') no-repeat;
+            background-position: 50% 50%;
+        }
+    }
+}
