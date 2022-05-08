@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas动画</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: gray;
+        }
+        canvas{
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: #fff;
+        }
+    </style>
+    <script>
+        window.onload = function(){
+            let oc = document.querySelector('canvas')
+            // 判断是否有画笔
+            if(oc.getContext){
+                // 添加2d画笔
+                let ctx = oc.getContext('2d')
+                let flag = 0
+                setInterval(() => {
+                    ctx.clearRect(0,0,oc.width,oc.height)
+                    flag++;
+                    ctx.save()
+                    ctx.beginPath()
+                    ctx.strokeRect(flag,flag,100,100)
+                    ctx.restore()
+                }, 1000/60);
+            }
+        }
+    </script>
+</head>
+<body>
+    <canvas width="400" height="400"></canvas>
+</body>
+</html>

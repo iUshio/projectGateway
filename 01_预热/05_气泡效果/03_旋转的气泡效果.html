@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旋转的气泡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: gray;
+        }
+
+        canvas {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            background-color: #fff;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            let oc = document.querySelector("canvas");
+            if (oc.getContext) {
+                let ctx = oc.getContext("2d");
+
+
+                let arr = [];
+
+                //将数组中的圆绘制到画布上
+                setInterval(function () {
+                    ctx.clearRect(0, 0, oc.width, oc.height)
+                    //动画
+                    for (let i = 0; i < arr.length; i++) {
+                        // 透明度为0的话删除该数组
+                        if (arr[i].y <= 40) {
+                            arr.splice(i, 1);
+                        }
+                        // 变化幅度
+                        arr[i].deg += Math.random()*2 + 1;
+                        // 运动轨迹——sin函数
+                        arr[i].x = arr[i].startX + Math.sin(arr[i].deg * Math.PI / 180) * arr[i].step / 2
+                        arr[i].y = arr[i].startY - (arr[i].deg * Math.PI / 180) * arr[i].step / 2
+                        // 透明度变化
+                        arr[i].alp -= 0.0015;
+                    }
+
+                    //绘制
+                    for (let i = 0; i < arr.length; i++) {
+                        ctx.save()
+                        ctx.fillStyle = `rgba(${arr[i].red},${arr[i].green},${arr[i].blue},${arr[i].alp})`
+                        ctx.beginPath()
+                        // 画入的圆的信息
+                        ctx.arc(arr[i].x, arr[i].y, arr[i].r, 0, 2 * Math.PI)
+                        ctx.fill()
+                        ctx.restore()
+                    }
+                }, 1000 / 600)
+
+
+                //往arr中注入随机圆的信息
+                setInterval(function () {
+                    // 随机圆圆心与半径
+                    let r = Math.random() * 6 + 2
+                    let x = Math.random() * oc.width
+                    let y = oc.height - r
+
+                    // 随机圆颜色
+                    let red = Math.round(Math.random() * 255)
+                    let green = Math.round(Math.random() * 255)
+                    let blue = Math.round(Math.random() * 255)
+                    let alp = 1
+
+                    // 圆做曲线运动的度数
+                    let deg = 0
+                    let startX = x
+                    let startY = y
+                    let step = 30
+                    arr.push({
+                        x,
+                        y,
+                        r,
+                        red,
+                        green,
+                        blue,
+                        alp,
+                        deg,
+                        startX,
+                        startY,
+                        step
+                    })
+                }, 20)
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <canvas width="150" height="400"></canvas>
+</body>
+
+</html>
