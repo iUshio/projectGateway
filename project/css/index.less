@@ -92,6 +92,7 @@ html,body{
 
         li{
             position: relative;
+            overflow: hidden;
         }
 
         section{
@@ -508,6 +509,48 @@ html,body{
         .about{
             background: url('../img/bg4.jpg') no-repeat;
             background-position: 50% 50%;
+
+            .about-title{
+                margin: 50px 0 100px 50px;
+            }
+
+            .about-abstract{
+                width: 400px;
+                margin-left: 50px;
+            }
+
+            .about-imgs{
+
+                .about-imgs-item{
+                    width: 260px;
+                    height: 200px;
+                    position: absolute;
+                    border: 5px solid rgba(255, 255, 255, 0.5);
+                    border-radius: 8px;
+                    z-index: 2;
+
+                    &:nth-child(1){
+                        left: 750px;
+                        top: 50px;
+                    }
+
+                    &:nth-child(2){
+                        left: 600px;
+                        top: 290px;
+                    }
+
+                }
+            }
+
+            .about-line{
+                width: 357px;
+                height: 998px;
+                position: absolute;
+                left: 50%;
+                top: -100px;
+                background: url('../img/greenLine.png');
+            }
+
         }
 
         .team{

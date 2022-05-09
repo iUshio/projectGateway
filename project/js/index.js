@@ -29,7 +29,7 @@ window.onload = function () {
 
     headActions()
     contentActions()
-    move(0)
+    move(3)
 
     // 页面发生缩放的时候自动刷新页面参数
     window.onresize = function () {
