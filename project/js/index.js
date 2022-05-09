@@ -18,9 +18,18 @@ window.onload = function () {
     let now = 0
     // 鼠标滚轮防抖
     let timer = 0
+    // 获取第一屏轮播图循环点
+    let homePointNodes = document.querySelectorAll('#content > .content-ul > .home  .home-ul-points > li')
+    // 获取第一屏图像结点
+    let homeImgNodes = document.querySelectorAll('#content > .content-ul > .home  .home-ul-imgs > li')
+    // 记录首页轮播图当前位置
+    let homenow = 0
+    // 第一屏轮播防抖
+    let homeTimer = 0
 
     headActions()
     contentActions()
+    move(0)
 
     // 页面发生缩放的时候自动刷新页面参数
     window.onresize = function () {
@@ -52,7 +61,7 @@ window.onload = function () {
         if (ev.wheelDelta) {
             dir = ev.wheelDelta > 0 ? 'up' : 'down'
         } else if (ev.detail) {
-            dir = ev.wheelDelta < 0 ? 'up' : 'down'
+            dir = ev.detail < 0 ? 'up' : 'down'
         }
         switch (dir) {
             case 'up':
@@ -86,15 +95,16 @@ window.onload = function () {
 
     }
 
+    // 页面跳转
     function move(i) {
         // 将其他的li颜色清除
         for (let item of upNodes) {
             item.style.width = ''
         }
         // 设置本li的颜色与arrow位置
-        if(i >= upNodes.length){
+        if (i >= upNodes.length) {
             i = upNodes.length - 1
-        }else if(i < 0){
+        } else if (i < 0) {
             i = 0
         }
         upNodes[i].style.width = '100%'
@@ -113,8 +123,48 @@ window.onload = function () {
             item.style.height = document.documentElement.clientHeight - head.offsetHeight + 'px'
         }
 
-
+        // 第一屏3D效果
+        home3D()
     }
+
+    // 第一屏轮播图3D效果
+    function home3D() {
+        for (let i = 0; i < homePointNodes.length; i++) {
+            homePointNodes[i].onclick = function () {
+                // 防抖
+                clearTimeout(homeTimer)
+                homeTimer = setTimeout(() => {
+                    // 如果点击当前页，不做任何处理
+                    if (homenow != i) {
+                        // 清除所有点的样式
+                        for (let item of homePointNodes) {
+                            item.className = ''
+                        }
+                        // 清除所有图片的样式
+                        for (let item of homeImgNodes) {
+                            item.className = ''
+                        }
+
+                        homePointNodes[homenow].classList.remove('active')
+                        homePointNodes[i].classList.add('active')
+                        // 判断是向那个位置的动画
+                        if (homenow > i) {
+                            // 从右边跳向左边的动画
+                            homeImgNodes[homenow].className = 'rightHide'
+                            homeImgNodes[i].className = 'leftShow'
+                        } else {
+                            // 从左边跳向右边的动画
+                            homeImgNodes[homenow].className = 'leftHide'
+                            homeImgNodes[i].className = 'rightShow'
+                        }
+                        homenow = i
+                    }
+                }, 400);
+
+            }
+        }
+    }
+
 }
 
 
