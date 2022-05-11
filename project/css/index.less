@@ -19,6 +19,48 @@ html,body{
     font-size:15px;
 }
 
+#wrap{
+    width: 100%;
+    height: 100%;
+}
+
+// 开机动画遮罩层
+#mask{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: rgba(255, 255, 255, 0);
+    transition: 1s;
+    z-index: 99;
+
+    .mask-up{
+        width: 100%;
+        height: 50%;
+        background-color: skyblue;
+        transition: 1s height;
+    }
+
+    .mask-down{
+        width: 100%;
+        height: 50%;
+        position: absolute;
+        top: 50%;
+        
+        background-color: skyblue;
+        transition: 1s;
+    }
+
+    .mask-line{
+        width: 0;
+        height: 5px;
+        position: absolute;
+        top: 50%;
+        background: #fff;
+        z-index: 4;
+        transition: 1s;
+    }
+}
+
 #head{
     width: 100%;
     background-color: #fff !important;
@@ -32,6 +74,14 @@ html,body{
         .logo{
             float: left;
             margin-top: 30px;
+        }
+
+        .music{
+            width: 14px;
+            height: 14px;
+            float: left;
+            margin: 50px 0 0 5px;
+            background: url('../img/musicon.gif');
         }
 
         .nav{
@@ -115,6 +165,9 @@ html,body{
                 height: 100%;
                 perspective: 1000px;
                 transform-style: preserve-3d;
+                transform:translateY(-400px);
+                opacity: 0;
+                transition: 1s;
 
                 li{
                     position: absolute;
@@ -235,6 +288,9 @@ html,body{
                 right: 0;
                 bottom: 10px;
                 text-align: center;
+                transform :translateY(200px);
+                opacity: 0;
+                transition: 1s;
 
                 li{
                     width: 20px;
@@ -410,6 +466,32 @@ html,body{
 
             }
 
+            .plane1{ 
+                width:359px; 
+                height:283px; 
+                background:url('../img/plane1.png') no-repeat; 
+                position:absolute; left:300px; 
+                top:-100px; 
+                transition:1s;
+            }
+
+			.plane2{ 
+                width:309px; 
+                height:249px; 
+                background:url('../img/plane2.png') no-repeat; 
+                position:absolute; left:-100px; 
+                top:200px; 
+                transition:1s;
+            }
+
+			.plane3{ 
+                width:230px; 
+                height:182px; 
+                background:url('../img/plane3.png') no-repeat; 
+                position:absolute; left:300px; 
+                top:400px; 
+                transition:1s;
+            }
         }
 
         .works{
@@ -504,6 +586,33 @@ html,body{
                     transform: translateX(0px) rotateY(180deg);
                 }
             }
+
+            .pencel1{ 
+                width:180px; 
+                height:97px; 
+                background:url('../img/pencel1.png') no-repeat; 
+                position:absolute; transition:1s; 
+                left:500px; 
+                top:0;
+            }
+			.pencel2{ 
+                width:268px; 
+                height:38px; 
+                background:url('../img/pencel2.png') no-repeat; 
+                position:absolute; 
+                transition:1s; 
+                left:300px; 
+                top:250px;
+            }
+			.pencel3{ 
+                width:441px; 
+                height:231px; 
+                background:url('../img/pencel3.png') no-repeat; 
+                position:absolute; 
+                transition:1s; 
+                left:650px; 
+                top:300px;
+            }
         }
 
         .about{
@@ -529,6 +638,7 @@ html,body{
                     border: 5px solid rgba(255, 255, 255, 0.5);
                     border-radius: 8px;
                     z-index: 2;
+                    transition: 1s;
 
                     span,ul{
                         position: absolute;
@@ -671,6 +781,7 @@ html,body{
                 .team-abstract{
                     width: 400px;
                     margin: 50px;
+                    transition: 1s;
                 }
 
                 .team-title{
@@ -733,8 +844,6 @@ html,body{
                         top: 0;
                     }
                 }
-
-                
 
             }
 

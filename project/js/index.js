@@ -15,7 +15,7 @@ window.onload = function () {
     // 获取内容区ul中的li元素
     let contentLiNodes = document.getElementsByClassName('contentLi')
     // 同步当前页面第几屏
-    let now = 4
+    let now = 0
     // 鼠标滚轮防抖
     let timer = 0
     // 获取第一屏轮播图循环点
@@ -38,6 +38,155 @@ window.onload = function () {
     let team = document.querySelector('.team-member')
     // 第五屏旗袍效果canvas
     let oc = null
+    // 出入场动画
+    let anArr = [
+        {
+            outAn:function(){
+                // 获取第一屏图片ul结点
+                let homeImgUl = document.querySelector('.home-ul-imgs')
+                // 获取第一屏轮播图点
+                let homeDotUl = document.querySelector('.home-ul-points')
+
+                homeImgUl.style.transform = 'translateY(-400px)'
+                homeImgUl.style.opacity = 0
+                homeDotUl.style.transform = 'translateY(200px)'
+                homeDotUl.style.opacity = 0
+            },
+            inAn: function () {
+                // 获取第一屏图片ul结点
+                let homeImgUl = document.querySelector('.home-ul-imgs')
+                // 获取第一屏轮播图点
+                let homeDotUl = document.querySelector('.home-ul-points')
+
+                homeImgUl.style.transform = 'translateY(0)'
+                homeImgUl.style.opacity = 1
+                homeDotUl.style.transform = 'translateY(0)'
+                homeDotUl.style.opacity = 1
+             }
+        },
+        {
+            inAn:function(){
+                let plane1 = document.querySelector(".plane1");
+                let plane2 = document.querySelector(".plane2");
+                let plane3 = document.querySelector(".plane3");
+                
+                plane1.style.transform = "translate(0px,0px)";
+                plane2.style.transform = "translate(0px,0px)";
+                plane3.style.transform = "translate(0px,0px)";
+            },
+            outAn:function(){
+                let plane1 = document.querySelector(".plane1");
+                let plane2 = document.querySelector(".plane2");
+                let plane3 = document.querySelector(".plane3");
+                
+                plane1.style.transform = "translate(-200px,-200px)";
+                plane2.style.transform = "translate(-200px,200px)";
+                plane3.style.transform = "translate(200px,-200px)";
+            }
+        },
+        {
+            inAn:function(){
+                let pencel1 = document.querySelector(".pencel1");
+                let pencel2 = document.querySelector(".pencel2");
+                let pencel3 = document.querySelector(".pencel3");
+                
+                pencel1.style.transform = "translateY(0px)";
+                pencel2.style.transform = "translateY(0px)";
+                pencel3.style.transform = "translateY(0px)";
+            },
+            outAn:function(){
+                let pencel1 = document.querySelector(".pencel1");
+                let pencel2 = document.querySelector(".pencel2");
+                let pencel3 = document.querySelector(".pencel3");
+                
+                pencel1.style.transform = "translateY(-100px)";
+                pencel2.style.transform = "translateY(100px)";
+                pencel3.style.transform = "translateY(100px)";
+            }
+        },
+        {
+            inAn:function(){
+                let Rect1 = document.querySelector(".about-imgs-item:nth-child(1)");
+                let Rect2 = document.querySelector(".about-imgs-item:nth-child(2)");
+                
+                Rect1.style.transform = "rotate(0deg)";
+                Rect2.style.transform = "rotate(0deg)";
+            },
+            outAn:function(){
+                let Rect1 = document.querySelector(".about-imgs-item:nth-child(1)");
+                let Rect2 = document.querySelector(".about-imgs-item:nth-child(2)");
+                
+                Rect1.style.transform = "rotate(45deg)";
+                Rect2.style.transform = "rotate(-45deg)";
+            }
+        },
+        {
+            inAn:function(){
+                let Rect1 = document.querySelector(".team-title");
+                let Rect2 = document.querySelector(".team-abstract");
+                
+                Rect1.style.transform = "translateX(0px)";
+                Rect2.style.transform = "translateX(0px)";
+            },
+            outAn:function(){
+                let Rect1 = document.querySelector(".team-title");
+                let Rect2 = document.querySelector(".team-abstract");
+                
+                Rect1.style.transform = "translateX(-200px)";
+                Rect2.style.transform = "translateX(200px)";
+            }
+        }
+    ]
+    // 获取音乐播放控件
+    let music = document.querySelector('.music')
+    // 获取audio
+    let audio = document.querySelector('audio')
+    music.onclick = function(){
+        if(audio.paused){
+            audio.play()
+            music.style.background ="url(img/musicon.gif)"
+        }else{
+            audio.pause()
+            music.style.background ="url(img/musicoff.gif)"
+        }
+    }
+    // 获取mask
+    let mask = document.getElementById('mask')
+
+    // 开机动画
+    loadingAn()
+    function loadingAn(){
+        let maskLine = document.querySelector('.mask-line')
+        let maskDiv = document.querySelectorAll('#mask > div')
+
+        let maskTimer = 0
+        for(; maskTimer <= 100; maskTimer++){
+            maskLine.style.width = maskTimer/100 * 100 + '%'
+        }
+
+        maskLine.addEventListener("transitionend",function(){
+            if(maskTimer === 101){
+                maskDiv[0].style.height = 0 + 'px'
+                maskDiv[1].style.top = '100%'
+                maskDiv[1].style.height = 0 + 'px'
+                this.style.display="none"
+            }
+        })
+
+        maskDiv[0].addEventListener("transitionend",function(){
+            mask.style.height = 0
+            
+        })
+        mask.addEventListener("transitionend",function(){
+            let tmpTimer = setTimeout(() => {
+                mask.remove()
+                audio.play();
+            move(now)
+            }, 1000)
+            clearTimeout(tmpTimer)
+            
+        })
+    }
 
     headActions()
     contentActions()
@@ -91,6 +240,7 @@ window.onload = function () {
 
     // 头部交互
     function headActions() {
+        
         // 绑定顶部导航li结点点击事件
         for (let i = 0; i < liNodes.length; i++) {
             liNodes[i].onclick = function () {
@@ -125,6 +275,12 @@ window.onload = function () {
         }
         // 为跳转的页面所对应的小点加上样式
         contentDots[i].classList.add('active')
+
+        // 入场动画
+        for(let item of anArr){
+            item.outAn()
+        }
+        anArr[i].inAn()
 
         // 显示当前页面的导航
         upNodes[i].style.width = '100%'
@@ -240,49 +396,115 @@ window.onload = function () {
                 biubiu(i)
             }
 
-            fivePics[i].onmouseleave = function () {
-                // 恢复其他图片透明度
-                for (let item of fivePics) {
-                    item.style.opacity = '1'
-                }
-            }
         }
     }
 
     // 第五屏气泡效果
     function biubiu(i) {
-        // 添加canvas
-        
+        let timer1 = 0
+        let timer2 = 0
+
         // 如果没有canvas创建并添加canvas
-        if(!oc){
+        if (!oc) {
             oc = document.createElement('canvas')
             oc.width = fivePics[i].offsetWidth
             oc.height = fivePics[i].offsetHeight
-            oc.style.background = 'pink'
-            
-            oc.style.left = (i*118) + 'px'
+
+            oc.style.left = (i * 118) + 'px'
 
             // 如果鼠标从canvas上移出，清除canvas
-            oc.onmouseleave=function(){
-                for(var i=0;i<fivePics.length;i++){
-                    fivePics[i].style.opacity=1;
+            oc.onmouseleave = function () {
+                for (let i = 0; i < fivePics.length; i++) {
+                    fivePics[i].style.opacity = 1;
                 }
-                
+
                 removeCanvas();
             }
-            
+
             team.appendChild(oc)
+            canvasShow()
         }
 
-        function removeCanvas(){
+        function removeCanvas() {
             oc.remove();
-            oc=null;
+            oc = null;
+            clearInterval(timer1);
+            clearInterval(timer2);
         }
 
-        function canvasShow(){
-            
+        function canvasShow() {
+            let oc = document.querySelector("canvas");
+            if (oc.getContext) {
+                let ctx = oc.getContext("2d");
+
+                let arr = [];
+
+                //将数组中的圆绘制到画布上
+                timer1 = setInterval(function () {
+                    ctx.clearRect(0, 0, oc.width, oc.height)
+                    //动画
+                    for (let i = 0; i < arr.length; i++) {
+                        // 透明度为0的话删除该数组
+                        if (arr[i].alp <= 0) {
+                            arr.splice(i, 1);
+                        }
+                        // 变化幅度
+                        arr[i].deg += 6;
+                        // 运动轨迹——sin函数
+                        arr[i].x = arr[i].startX + Math.sin(arr[i].deg * Math.PI / 180) * arr[i].step / 2
+                        arr[i].y = arr[i].startY - (arr[i].deg * Math.PI / 180) * arr[i].step / 2
+                        // 透明度变化
+                        arr[i].alp -= 0.0015;
+                    }
+
+                    //绘制
+                    for (let i = 0; i < arr.length; i++) {
+                        ctx.save()
+                        ctx.fillStyle = `rgba(${arr[i].red},${arr[i].green},${arr[i].blue},${arr[i].alp})`
+                        ctx.beginPath()
+                        // 画入的圆的信息
+                        ctx.arc(arr[i].x, arr[i].y, arr[i].r, 0, 2 * Math.PI)
+                        ctx.fill()
+                        ctx.restore()
+                    }
+                }, 1000 / 600)
+
+                //往arr中注入随机圆的信息
+                timer2 = setInterval(function () {
+                    // 随机圆圆心与半径
+                    let r = Math.random() * 6 + 2
+                    let x = Math.random() * oc.width
+                    let y = oc.height - r
+
+                    // 随机圆颜色
+                    let red = Math.round(Math.random() * 255)
+                    let green = Math.round(Math.random() * 255)
+                    let blue = Math.round(Math.random() * 255)
+                    let alp = 1
+
+                    // 圆做曲线运动的度数
+                    let deg = 0
+                    let startX = x
+                    let startY = y
+                    let step = 30
+                    arr.push({
+                        x,
+                        y,
+                        r,
+                        red,
+                        green,
+                        blue,
+                        alp,
+                        deg,
+                        startX,
+                        startY,
+                        step
+                    })
+                }, 20)
+            }
         }
     }
+
 }
 
 
