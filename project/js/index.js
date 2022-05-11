@@ -4,7 +4,7 @@ window.onload = function () {
     let arrowEL = document.querySelector('#head .headMain > .arrow')
     // 获取顶部导航li结点
     let liNodes = document.getElementsByClassName('listLi')
-    // 获取up结点
+    // 获取导航中up结点
     let upNodes = document.getElementsByClassName('up')
     // 获取头部元素
     let head = document.getElementById('head')
@@ -15,7 +15,7 @@ window.onload = function () {
     // 获取内容区ul中的li元素
     let contentLiNodes = document.getElementsByClassName('contentLi')
     // 同步当前页面第几屏
-    let now = 0
+    let now = 4
     // 鼠标滚轮防抖
     let timer = 0
     // 获取第一屏轮播图循环点
@@ -26,10 +26,22 @@ window.onload = function () {
     let homenow = 0
     // 第一屏轮播防抖
     let homeTimer = 0
+    // 获取第四屏图片url
+    let aboutImgUl = document.querySelectorAll('.about-imgs-item ul')
+    // 获取页面跳转右侧圆点
+    let contentDots = document.querySelectorAll('.content-ul-points > li')
+    // 圆点防抖计数器
+    let dotTimer = 0
+    // 获取第五屏图片
+    let fivePics = document.querySelectorAll('.team-member > ul > li')
+    // 获取team下的section
+    let team = document.querySelector('.team-member')
+    // 第五屏旗袍效果canvas
+    let oc = null
 
     headActions()
     contentActions()
-    move(3)
+    move(now)
 
     // 页面发生缩放的时候自动刷新页面参数
     window.onresize = function () {
@@ -66,14 +78,12 @@ window.onload = function () {
         switch (dir) {
             case 'up':
                 if (now >= 0) {
-                    now--;
-                    move(now)
+                    move(now - 1)
                 }
                 break
             case 'down':
                 if (now < 4) {
-                    now++;
-                    move(now)
+                    move(now + 1)
                 }
                 break
         }
@@ -107,10 +117,36 @@ window.onload = function () {
         } else if (i < 0) {
             i = 0
         }
+
+        // 右侧小点
+        // 清除所有点的样式
+        for (let item of contentDots) {
+            item.className = ''
+        }
+        // 为跳转的页面所对应的小点加上样式
+        contentDots[i].classList.add('active')
+
+        // 显示当前页面的导航
         upNodes[i].style.width = '100%'
+        // 导航箭头移动
         arrowEL.style.left = liNodes[i].offsetLeft + liNodes[i].offsetWidth / 2 - arrowEL.offsetWidth / 2 + 'px'
         // 移动内容区ul偏移
         contentUlNodes[0].style.top = -i * (document.documentElement.clientHeight - head.offsetHeight) + 'px'
+        // 更新now
+        now = i
+    }
+
+    // 页面右侧圆点跳转
+    function contentDot() {
+        for (let i = 0; i < contentDots.length; i++) {
+            contentDots[i].onclick = function () {
+                // 防抖
+                clearTimeout(dotTimer)
+                dotTimer = setTimeout(() => {
+                    move(i)
+                }, 400)
+            }
+        }
     }
 
     // 内容区交互
@@ -123,8 +159,17 @@ window.onload = function () {
             item.style.height = document.documentElement.clientHeight - head.offsetHeight + 'px'
         }
 
+        // 右侧小点
+        contentDot()
+
         // 第一屏3D效果
         home3D()
+
+        // 第四屏图片炸裂效果
+        picBoom()
+
+        // 第五屏展示效果
+        picShow()
     }
 
     // 第一屏轮播图3D效果
@@ -165,7 +210,82 @@ window.onload = function () {
         }
     }
 
+    // 第四屏图片自动生成
+    function picBoom() {
+        for (let item of aboutImgUl) {
+            let src = item.dataset.src
+            let width = item.offsetWidth / 2
+            let height = item.offsetHeight / 2
+            for (let i = 0; i < 4; i++) {
+                let liNode = document.createElement('li')
+                let imgNode = document.createElement('img')
+                liNode.style.width = width + 'px'
+                liNode.style.height = height + 'px'
+                imgNode.src = src
+                liNode.appendChild(imgNode)
+                item.appendChild(liNode)
+            }
+        }
+    }
+
+    // 第五屏展示效果
+    function picShow() {
+        for (let i = 0; i < fivePics.length; i++) {
+            fivePics[i].onmouseenter = function () {
+                // 使其他图片透明度降低
+                for (let item of fivePics) {
+                    item.style.opacity = '0.5'
+                }
+                fivePics[i].style.opacity = '1'
+                biubiu(i)
+            }
+
+            fivePics[i].onmouseleave = function () {
+                // 恢复其他图片透明度
+                for (let item of fivePics) {
+                    item.style.opacity = '1'
+                }
+            }
+        }
+    }
+
+    // 第五屏气泡效果
+    function biubiu(i) {
+        // 添加canvas
+        
+        // 如果没有canvas创建并添加canvas
+        if(!oc){
+            oc = document.createElement('canvas')
+            oc.width = fivePics[i].offsetWidth
+            oc.height = fivePics[i].offsetHeight
+            oc.style.background = 'pink'
+            
+            oc.style.left = (i*118) + 'px'
+
+            // 如果鼠标从canvas上移出，清除canvas
+            oc.onmouseleave=function(){
+                for(var i=0;i<fivePics.length;i++){
+                    fivePics[i].style.opacity=1;
+                }
+                
+                removeCanvas();
+            }
+            
+            team.appendChild(oc)
+        }
+
+        function removeCanvas(){
+            oc.remove();
+            oc=null;
+        }
+
+        function canvasShow(){
+            
+        }
+    }
 }
+
+
 
 
 
